@@ -361,16 +361,9 @@ settings <- make_settings( n_x = n_x,
                            bias.correct = TRUE,
                            ObsModel=ObsModel,
                            RhoConfig=RhoConfig,
-                           treat_nonencounter_as_zero=treat_nonencounter_as_zero)#,
-# Version=Version)
+                           treat_nonencounter_as_zero=treat_nonencounter_as_zero)
 
-# coords <- cbind(temp.dat$EQ.Latitude, temp.dat$EQ.Longitude)
-# dimnames(coords)[[2]] <- c("Lat","Lon")
-# is.matrix(coords)
-
-# Read input grid
-# user_region <- readRDS(file.path(dir.output, "Bristol_Bay_to_62.5N.rds"))
-user_region <- readRDS(file.path(dir.output, "user_region_ALL.rds"))
+user_region <- readRDS(file.path(dir.data, "user_region_ALL.rds"))
 
 # Run model
 if(do.est==TRUE) {
