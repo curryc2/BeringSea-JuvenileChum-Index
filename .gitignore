@@ -37,3 +37,10 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+# Large model fit storage files
+.rds
+.RDS
+
+# Ignore confiential data in /data folder
+data/*
