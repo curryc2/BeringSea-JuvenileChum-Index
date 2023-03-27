@@ -13,16 +13,6 @@
 
 # TIMINGS:
 
-# nx=500, 2,1
-# [1] "Sun Jan  8 19:07:34 2023"
-# [1] "Sun Jan  8 20:38:19 2023"
-
-# [1] "Mon Jan  9 22:56:40 2023"
-# [1] "Tue Jan 10 03:06:05 2023"
-
-# [1] "n_x 500 ObsModel 2 0 fine_scale TRUE RhoConfig 4 4 0 0"
-# [1] "Tue Jan 10 12:57:48 2023"
-# [1] "Tue Jan 10 13:06:26 2023"
 
 #==================================================================================================
 # devtools::install_github("james-thorson/FishStatsUtils", INSTALL_opts="--no-staged-install")
