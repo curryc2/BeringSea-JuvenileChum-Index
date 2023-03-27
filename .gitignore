@@ -44,3 +44,7 @@ vignettes/*.pdf
 
 # Ignore confiential data in /data folder
 data/*
+
+# Copied RData files
+/figs/.RData
+/figs/*.RData
