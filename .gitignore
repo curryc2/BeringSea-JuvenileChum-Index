@@ -39,12 +39,12 @@ vignettes/*.pdf
 .Renviron
 
 # Large model fit storage files
-.rds
-.RDS
+*.rds
+*.RDS
 
 # Ignore confiential data in /data folder
 data/*
 
 # Copied RData files
-/figs/.RData
-/figs/*.RData
+/figs/**/*.RData
+
