@@ -45,7 +45,10 @@ require(ggspatial)
 # CONTROL ======================================================================
 
 # Do Estimation?
-do.est <- FALSE
+do.est <- TRUE
+
+# Plot Data
+plot.data <- FALSE
 
 # Select Species
 # species <- "Sockeye Salmon"
@@ -65,6 +68,8 @@ Region <- "User"
 
 fine_scale <- TRUE
 
+treat_nonencounter_as_zero <- TRUE
+
 # ObsModel=c(1,1) #Lognormal and Poisson-Linked Delta
 # ObsModel=c(2,1) #Gamma and Poisson-Linked Delta - GOOD USE ME!!!!!
 # ObsModel=c(2,0) #Gamma and Standard Delta - Works well, slightly lower R2
@@ -82,11 +87,42 @@ fine_scale <- TRUE
 # RhoConfig=c("Beta1"=0,"Beta2"=4,"Epsilon1"=4,"Epsilon2"=4) # 1st order AR - WORKS
 
 
-# Best Combo =======
-ObsModel=c(1,1) #Lognormal and Poisson-Linked Delta
-RhoConfig=c("Beta1"=4,"Beta2"=4,"Epsilon1"=0,"Epsilon2"=0) # 1st order AR - WORKS
+# Explorations =======
 
-treat_nonencounter_as_zero <- TRUE
+# ObsModel=c(1,1) #Lognormal and Poisson-Linked Delta
+# RhoConfig=c("Beta1"=4,"Beta2"=4,"Epsilon1"=0,"Epsilon2"=0) 
+# Result
+# Check bounds for the following parameters:
+#   Param starting_value Lower  MLE Upper final_gradient
+# 14 Beta_rho2_f           0.01 -0.99 0.99  0.99      -2.521774
+
+# ObsModel=c(2,1) #Lognormal and Poisson-Linked Delta
+# RhoConfig=c("Beta1"=4,"Beta2"=4,"Epsilon1"=0,"Epsilon2"=0)
+# The following parameters appear to be approaching zero:
+#   Param starting_value Lower           MLE Upper final_gradient
+# 11 L_beta2_z              1  -Inf -3.602815e-06   Inf    -0.00140595
+# Please turn off factor-model variance parameters `L_` that are approaching zero and re-run the model
+
+# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+# Ran but DHARMA residuals not ideal
+
+# ObsModel=c(1,1) #Lognormal and Poisson-Linked Delta
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+# The following parameters appear to be approaching zero:
+#   Param starting_value Lower          MLE Upper final_gradient
+# 47 L_epsilon2_z              1  -Inf 1.978222e-06   Inf   5.193601e-05
+# Please turn off factor-model variance parameters `L_` that are approaching zero and re-run the model
+
+ObsModel=c(2,0) #Gamma and Standard Delta Model
+RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+
+
+# Best Parameterization ======================
+# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+
+
 
 # Workflow =====================================================================
 dir.data <- here("data")
@@ -102,7 +138,7 @@ dir.create(dir.vast, recursive=TRUE)
 dir.output <- here("output")
 dir.R <- here("R")
 # Directory for User Extrapolation Grid
-dir.extrap <- here("Figs", "AKFIN", "User")
+dir.extrap <- dir.data
 
 # Source FishStatsUtils function that cannot be loaded =========================
 # source(file.path(dir.R, "strip_units.R")) #No longer needed
@@ -221,7 +257,7 @@ if(type=="biom") {
 
 
 # Plot Data ====================================================================
-
+if(plot.data==TRUE) {
 # Plot catch histogram
 g.hist <- temp.dat %>% ggplot(aes(x=log(CPUE), fill=log(CPUE))) +
   theme_linedraw() +
@@ -347,6 +383,8 @@ ggsave(filename=file.path(dir.vast, "Data Points Map_all_presentation.png"), plo
 
 # Lower quality
 ggsave(filename=file.path(dir.vast, "Data Points Map_all_presentation_low.png"), plot=g, height=6, width=10, units="in", dpi=200)
+
+}
 
 # Fit VAST Model ===============================================================
 setwd(dir.vast)
