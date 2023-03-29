@@ -103,20 +103,21 @@ treat_nonencounter_as_zero <- TRUE
 # 47 L_epsilon2_z              1  -Inf 1.978222e-06   Inf   5.193601e-05
 # Please turn off factor-model variance parameters `L_` that are approaching zero and re-run the model
 
-ObsModel=c(2,0) #Gamma and Standard Delta Model
-RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+# Alternative ============
+# ObsModel=c(2,0) #Gamma and Standard Delta Model
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 
 # Best Parameterization ======================
-# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
-# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 
 
 # Workflow =====================================================================
 dir.data <- here("data")
 
-dir.vast <- file.path(here(), "figs", "AKFIN", "User", species, type,
+dir.vast <- file.path(here(), "figs", "AKFIN", "Strata", species, type,
                       paste("n_x", n_x, 
                             "ObsModel", ObsModel[1], ObsModel[2],
                             "fine_scale", fine_scale,
@@ -375,6 +376,30 @@ ggsave(filename=file.path(dir.vast, "Data Points Map_all_presentation_low.png"),
 
 }
 
+# Strata Definitions ===========================================================
+
+# Sabrina's Example
+# mutate( FinalStrat = case_when( (stratum == 1) & (EQLongitude > -166.75) | (EQLongitude < -172.5) ~ 999,
+                                # TRUE ~ stratum ) )
+
+strata.limits <- data.frame(
+  'STRATA' = c("All areas","Chum_Garcia"),
+  # 'west_border' = c(Inf, -Inf),
+  # 'east_border' = c(Inf, -Inf),
+  'north_border' = c(Inf, 64.15),
+  'south_border' = c(-Inf, -Inf)
+  )
+
+
+# strata.limits <- data.frame(
+#   'STRATA' = c("All areas","Chum_Garcia"),
+#   'west_border' = c(-Inf, Inf),
+#   'east_border' = c(-Inf, Inf),
+#   'north_border' = c(Inf, 64.15),
+#   # 'north_border' = c(Inf, 61.15)
+#   'south_border' = c(-Inf, -Inf)
+#   )
+
 # Fit VAST Model ===============================================================
 setwd(dir.vast)
 
@@ -383,7 +408,7 @@ start.time <- date()
 settings <- make_settings( n_x = n_x, 
                            Region=Region,
                            purpose = "index2", 
-                           strata.limits = data.frame(STRATA="All_areas"),
+                           strata.limits = strata.limits, #Updated
                            fine_scale = fine_scale, 
                            bias.correct = TRUE,
                            ObsModel=ObsModel,
