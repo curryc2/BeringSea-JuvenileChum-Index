@@ -105,19 +105,20 @@ treat_nonencounter_as_zero <- TRUE
 # Please turn off factor-model variance parameters `L_` that are approaching zero and re-run the model
 
 # Alternatives ============
-# ObsModel=c(2,0) #Gamma and Standard Delta Model
-# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+
 
 # ObsModel=c(1,0) #Lognormal and Standard Delta Model - FAIL
 # RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
-ObsModel=c(1,1) #Lognormal and Poisson-Linked Delta
-RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
-
-# Best Parameterization ======================
-# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+# ObsModel=c(1,1) #Lognormal and Poisson-Linked Delta - FAIL
 # RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
+# Best Parameterization ======================
+ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+
+# ObsModel=c(2,0) #Gamma and Standard Delta Model
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 
 
