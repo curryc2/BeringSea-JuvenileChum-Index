@@ -112,13 +112,36 @@ treat_nonencounter_as_zero <- TRUE
 # ObsModel=c(1,1) #Lognormal and Poisson-Linked Delta - FAIL
 # RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
+# ObsModel=c(5,0) #Zero-inflated Negative Binomial and Standard Delta Model - Failed
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+
+
+# ObsModel=c(7,0) #Zero-inflated Poisson - Error in estimation
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+
+# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta - RW for years - FAIL
+# RhoConfig=c("Beta1"=2,"Beta2"=2,"Epsilon1"=0,"Epsilon2"=0)
+# 
+# The following parameters appear to be approaching zero:
+#   Param starting_value Lower           MLE Upper final_gradient
+# 5  L_beta1_z              1  -Inf  9.964962e-06   Inf   0.0009009601
+# 10 L_beta2_z              1  -Inf -1.671965e-06   Inf  -0.0009170077
+# Please turn off factor-model variance parameters `L_` that are approaching zero and re-run the model
+
+# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta - RW for years - FAIL
+# RhoConfig=c("Beta1"=5,"Beta2"=4,"Epsilon1"=0,"Epsilon2"=0)
+
 # Best Parameterization ======================
-ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
-RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 # ObsModel=c(2,0) #Gamma and Standard Delta Model
 # RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
+
+
+ObsModel=c(10,2) #Tweedie Model
+RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 
 # Workflow =====================================================================
@@ -244,6 +267,8 @@ if(type=="biom") {
                                      TRAWLPERFORMANCE %in% c("Good/Satisfactory", "Good", "Satisfactory", "G"))
 }
 
+# Write.csv
+write.csv(temp.dat, file=file.path(dir.output, "InputData.csv"))
 
 # Update with cpue
 if(type=="biom") {
@@ -389,13 +414,28 @@ ggsave(filename=file.path(dir.vast, "Data Points Map_all_presentation_low.png"),
 # mutate( FinalStrat = case_when( (stratum == 1) & (EQLongitude > -166.75) | (EQLongitude < -172.5) ~ 999,
                                 # TRUE ~ stratum ) )
 
+
+# Revisions from Sabrina March 29, 2023
+# NBS: 60 - 64.15, no long restrictions
+# SBS stratum: 58 - 60, -166.75 to -172.5
+
 strata.limits <- data.frame(
-  'STRATA' = c("All areas","Chum_Garcia"),
-  # 'west_border' = c(Inf, -Inf),
-  # 'east_border' = c(Inf, -Inf),
-  'north_border' = c(Inf, 64.15),
-  'south_border' = c(-Inf, -Inf)
-  )
+  'STRATA' = c("All areas","NBS","SBS"),
+  'west_border' = c(-Inf, -Inf, -172.5),
+  'east_border' = c(Inf, Inf, -166.75),
+  'north_border' = c(Inf, 64.15, 60),
+  'south_border' = c(-Inf, 60, 58)
+)
+
+
+
+# strata.limits <- data.frame(
+#   'STRATA' = c("All areas","Chum_Garcia"),
+#   # 'west_border' = c(Inf, -Inf),
+#   # 'east_border' = c(Inf, -Inf),
+#   'north_border' = c(Inf, 64.15),
+#   'south_border' = c(-Inf, -Inf)
+#   )
 
 
 # strata.limits <- data.frame(
