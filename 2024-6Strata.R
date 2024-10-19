@@ -167,29 +167,29 @@ dir.extrap <- dir.data
 # source(file.path(dir.R, "strip_units.R")) #No longer needed
 
 # Copy Extrapolation Grid File to VAST Folder ==================================
-if(n_x==250) {
-  file.copy(from=file.path(dir.extrap,"Kmeans_extrapolation-2500.RData"),
-            to=file.path(dir.vast, "Kmeans_extrapolation-2500.RData"))
-}
-if(n_x==500) {
-  file.copy(from=file.path(dir.extrap,"Kmeans_extrapolation-5000.RData"),
-            to=file.path(dir.vast, "Kmeans_extrapolation-5000.RData"))
-}
-
-if(n_x==1000) {
-  file.copy(from=file.path(dir.extrap,"Kmeans_extrapolation-10000.RData"),
-            to=file.path(dir.vast, "Kmeans_extrapolation-10000.RData"))
-}
+# if(n_x==250) {
+#   file.copy(from=file.path(dir.extrap,"Kmeans_extrapolation-2500.RData"),
+#             to=file.path(dir.vast, "Kmeans_extrapolation-2500.RData"))
+# }
+# if(n_x==500) {
+#   file.copy(from=file.path(dir.extrap,"Kmeans_extrapolation-5000.RData"),
+#             to=file.path(dir.vast, "Kmeans_extrapolation-5000.RData"))
+# }
+# 
+# if(n_x==1000) {
+#   file.copy(from=file.path(dir.extrap,"Kmeans_extrapolation-10000.RData"),
+#             to=file.path(dir.vast, "Kmeans_extrapolation-10000.RData"))
+# }
 
 # Read in Compiled Basis Data ==================================================
 
 # 2024 Data from S. Garcia
-dat.catch <- read_xlsx(file.path(dir.data,"2024 Data","EBS chum data_2002 - 2024.xlsx"),
+dat.catch <- read_xlsx(file.path(dir.data,"2024 Data","Sabrina_J_Chum_10.16.xlsx"),
                        sheet="Catch")
 
 str(dat.catch)
 
-dat.event <- read_xlsx(file.path(dir.data,"2024 Data","EBS chum data_2002 - 2024.xlsx"),
+dat.event <- read_xlsx(file.path(dir.data,"2024 Data","Sabrina_J_Chum_10.16.xlsx"),
                        sheet="Event")
 
 str(dat.event)
