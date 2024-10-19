@@ -37,7 +37,7 @@ require(ggspatial)
 do.est <- TRUE
 
 # Plot Data
-plot.data <- FALSE
+plot.data <- TRUE
 
 # Select Species
 # species <- "Sockeye Salmon"
@@ -132,16 +132,16 @@ treat_nonencounter_as_zero <- TRUE
 # RhoConfig=c("Beta1"=5,"Beta2"=4,"Epsilon1"=0,"Epsilon2"=0)
 
 # Best Parameterization ======================
-# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
-# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 # ObsModel=c(2,0) #Gamma and Standard Delta Model
 # RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 
 
-ObsModel=c(10,2) #Tweedie Model
-RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+# ObsModel=c(10,2) #Tweedie Model
+# RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 
 # Workflow =====================================================================
@@ -419,15 +419,27 @@ ggsave(filename=file.path(dir.vast, "Data Points Map_all_presentation_low.png"),
 # NBS: 60 - 64.15, no long restrictions
 # SBS stratum: 58 - 60, -166.75 to -172.5
 
+# strata.limits <- data.frame(
+#   'STRATA' = c("All areas","NBS","SBS"),
+#   'west_border' = c(-Inf, -Inf, -172.5),
+#   'east_border' = c(Inf, Inf, -166.75),
+#   'north_border' = c(Inf, 64.15, 60),
+#   'south_border' = c(-Inf, 60, 58)
+# )
+
+# Six strata
 strata.limits <- data.frame(
-  'STRATA' = c("All areas","NBS","SBS"),
-  'west_border' = c(-Inf, -Inf, -172.5),
-  'east_border' = c(Inf, Inf, -166.75),
-  'north_border' = c(Inf, 64.15, 60),
-  'south_border' = c(-Inf, 60, 58)
+  'STRATA' = c("All areas","Strata1","Strata2","Strata3","Strata4","Strata5","Strata6"),
+  'west_border' = c(-Inf, -172.5, -172.5, -172.5, -166.75, -172.5, -166.75),
+  'east_border' = c(Inf, Inf, Inf, -166.75, Inf, -166.75, Inf),
+  'north_border' = c(Inf, 66.0, 64.1, 59.9, 59.9, 57.9, 57.9),
+  'south_border' = c(-Inf, 64.1, 59.9, 57.9, 57.9, 54.9, 54.9)
 )
 
+strata.limits
 
+# Write Strata limits
+write.csv(strata.limits, file.path(dir.vast, "strata.limits.csv"))
 
 # strata.limits <- data.frame(
 #   'STRATA' = c("All areas","Chum_Garcia"),
