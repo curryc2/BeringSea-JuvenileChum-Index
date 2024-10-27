@@ -1,0 +1,8 @@
+"","STRATA","west_border","east_border","north_border","south_border","Stratum"
+"1","All areas",-Inf,Inf,Inf,-Inf,"Stratum_1"
+"2","Bering_Strait",-172.5,Inf,66,64.1,"Stratum_2"
+"3","NBS",-172.5,Inf,64.1,59.9,"Stratum_3"
+"4","NBS_NW",-172.5,-166.75,59.9,57.9,"Stratum_4"
+"5","SBS_NE",-166.75,Inf,59.9,57.9,"Stratum_5"
+"6","SBS_SW",-172.5,-166.75,57.9,54.9,"Stratum_6"
+"7","SBS_SE",-166.75,Inf,57.9,54.9,"Stratum_7"
