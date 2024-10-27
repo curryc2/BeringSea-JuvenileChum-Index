@@ -137,11 +137,11 @@ treat_nonencounter_as_zero <- TRUE
 # Best Parameterization ======================
 
 
-ObsModel=c(2,0) #Gamma and Standard Delta Model
-RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
-
-# ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+# ObsModel=c(2,0) #Gamma and Standard Delta Model
 # RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
+
+ObsModel=c(2,1) #Gamma and Poisson-Linked Delta
+RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
 
 # ObsModel=c(11,0) #Zero-inflated Poisson: Doesn't work
 # RhoConfig=c("Beta1"=0,"Beta2"=0,"Epsilon1"=0,"Epsilon2"=0)
@@ -192,15 +192,18 @@ dat.catch <- read_xlsx(file.path(dir.data,"2024 Data","Sabrina_J_Chum_10.16.xlsx
                        sheet="Catch")
 
 str(dat.catch)
+dim(dat.catch)
 
 dat.event <- read_xlsx(file.path(dir.data,"2024 Data","Sabrina_J_Chum_10.16.xlsx"),
                        sheet="Event")
 
 str(dat.event)
+dim(dat.event)
 
 
 # Select necessary fields
 sort(names(dat.event))
+
 sort(names(dat.catch))
 
 # Select Only Surface Tows: EVENT
@@ -231,6 +234,7 @@ dat.input <- dat.event.3 %>% left_join(dat.catch.2, by=c("SampleYear"="SampleYea
                                                          "StationID"="StationID"))
 
 dim(dat.input)
+
 
 # dat.inner <- dat.event.2 %>% inner_join(dat.catch.2, by=c("SampleYear"="SampleYear",
 #                                                          "StationID"="StationID"))
@@ -448,10 +452,10 @@ strata.limits <- data.frame(
   'south_border' = c(-Inf, 64.1, 59.9, 57.9, 57.9, 54.9, 54.9)
 )
 
-strata.limits.output <- data.frame
+strata.limits.output <- data.frame(strata.limits, Stratum=paste("Stratum",1:nrow(strata.limits), sep="_"))
 
 # Write Strata limits
-write.csv(strata.limits, file.path(dir.vast, "strata.limits.csv"))
+write.csv(strata.limits.output, file.path(dir.vast, "strata.limits.output.csv"))
 
 # strata.limits <- data.frame(
 #   'STRATA' = c("All areas","Chum_Garcia"),
@@ -535,8 +539,10 @@ plot(fit)
 # Plot Encounter Probability
 # plot_results(fit=fit, plot_set = c(1,2,3,4,5,6,7,8,9), working_dir=paste0(dir.vast, "/"))
 
-# Comprehensive plotting =======================================================
-
+# Create human-friendly index output ===========================================
+index <- read.csv("index.csv")
+index.2 <- index %>% left_join(strata.limits.output)
+write.csv(index.2, "Index for Sabrina.csv")
 
 # Reset working directory ======================================================
 setwd(here())
